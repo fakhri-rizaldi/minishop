@@ -1,4 +1,4 @@
-# MiniShop — Botanical Catalog, Cart & Admin
+# MiniShop — Catalog, Cart & Admin
 
 > Case Study Fullstack Engineer: Aplikasi e-commerce katalog tanaman hias & botani modern, keranjang belanja interaktif, transaksi checkout database dengan row locking (`lockForUpdate`) anti-race condition, dan panel admin terproteksi Laravel Sanctum.
 
