@@ -1,0 +1,42 @@
+# Dependencies
+/node_modules
+/backend/vendor
+/frontend/node_modules
+
+# Environment files
+.env
+.env.*
+!.env.example
+/backend/.env
+/backend/.env.*
+!/backend/.env.example
+/frontend/.env
+/frontend/.env.*
+!/frontend/.env.example
+
+# Build & compiled assets
+/dist
+/frontend/dist
+/backend/public/build
+/backend/public/hot
+/backend/storage/*.key
+
+# Logs and cache
+*.log
+/backend/storage/logs/*
+!/backend/storage/logs/.gitignore
+/backend/storage/framework/cache/*
+/backend/storage/framework/sessions/*
+/backend/storage/framework/views/*
+!/backend/storage/framework/cache/.gitignore
+!/backend/storage/framework/sessions/.gitignore
+!/backend/storage/framework/views/.gitignore
+.phpunit.result.cache
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
