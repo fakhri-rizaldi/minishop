@@ -68,6 +68,8 @@ flowchart LR
 | HTTP client | axios | Interceptor 401 & error sederhana |
 | Harga | `bigint` Rupiah (bukan float) | Tanpa galat pembulatan |
 | Cart | Klien saja, persist `localStorage` | Sesuai case study; server baru tahu saat checkout |
+| Transisi Grid | `<TransitionGroup>` Vue 3 (FLIP `v-move`) | Animasi pergeseran posisi mulus saat filter/search tanpa pustaka eksternal |
+| Debounce Search | 250 ms sisi klien | Mencegah layout thrashing dan request berlebihan saat mengetik cepat |
 | Hapus produk | Soft delete | Order lama tetap valid |
 | Cache | Tidak ada | Stok/harga harus selalu terbaru (REQ-ADM-06) |
 
@@ -99,7 +101,7 @@ minishop/
         ├── views/admin/{LoginView,ProductListView,ProductFormView,OrderListView,OrderDetailView}.vue
         ├── components/{AppHeader,ProductCard,ProductGrid,SearchInput,CategoryFilter,QuantityStepper,
         │               CartLine,CartSummary,Pagination,StockBadge,PriceText,ConfirmDialog,
-        │               EmptyState,ErrorState,SkeletonCard,Toast,AdminLayout}.vue
+        │               EmptyState,ErrorState,SkeletonCard,Toast,FloatingCartButton,AdminLayout}.vue
         ├── composables/useDebounce.js
         ├── utils/{format,storage}.js
         └── assets/styles.css    # token dari ui.md

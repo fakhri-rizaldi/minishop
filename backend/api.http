@@ -1,0 +1,162 @@
+@baseUrl = http://localhost:8000/api
+@token = 1|laravel_sanctum_token_here
+
+### 1. Health Check (Fase 0.3)
+GET {{baseUrl}}/up
+Accept: application/json
+
+### 2. Test Format Error 404 JSON (Fase 0.3)
+GET {{baseUrl}}/endpoint-tidak-ada
+Accept: application/json
+
+### 3. Test Unauthorized 401 JSON (Fase 0.3)
+GET {{baseUrl}}/user
+Accept: application/json
+
+### 4. Get Categories (Fase 2 - REQ-CAT-01)
+GET {{baseUrl}}/categories
+Accept: application/json
+
+### 5. Get Products (Default 12 per page) (Fase 2 - REQ-CAT-02)
+GET {{baseUrl}}/products
+Accept: application/json
+
+### 6. Filter Products by Search (Fase 2 - REQ-CAT-03)
+GET {{baseUrl}}/products?search=monstera
+Accept: application/json
+
+### 7. Filter Products by Category Slug (Fase 2 - REQ-CAT-04)
+GET {{baseUrl}}/products?category=tanaman-indoor
+Accept: application/json
+
+### 8. Combined Search & Category (Fase 2 - REQ-CAT-05)
+GET {{baseUrl}}/products?search=ficus&category=tanaman-indoor
+Accept: application/json
+
+### 9. Get Single Product Detail (Fase 2 - REQ-CAT-09)
+GET {{baseUrl}}/products/1
+Accept: application/json
+
+### 10. Get Product Detail (404 Test) (Fase 2 - REQ-CAT-10)
+GET {{baseUrl}}/products/9999
+Accept: application/json
+
+### 11. Checkout Normal (Fase 3 - REQ-CO-01)
+POST {{baseUrl}}/orders
+Content-Type: application/json
+Accept: application/json
+
+{
+  "customer": {
+    "name": "Budi Santoso",
+    "email": "budi@example.com"
+  },
+  "items": [
+    { "product_id": 1, "quantity": 1 },
+    { "product_id": 5, "quantity": 2 }
+  ]
+}
+
+### 12. Checkout Stok Tidak Cukup / 409 (Fase 3 - REQ-CO-05)
+POST {{baseUrl}}/orders
+Content-Type: application/json
+Accept: application/json
+
+{
+  "customer": {
+    "name": "Siti Rahma",
+    "email": "siti@example.com"
+  },
+  "items": [
+    { "product_id": 4, "quantity": 5 }
+  ]
+}
+
+### 13. Checkout Validasi Gagal / 422 (Fase 3 - REQ-CO-03)
+POST {{baseUrl}}/orders
+Content-Type: application/json
+Accept: application/json
+
+{
+  "customer": {
+    "name": "",
+    "email": "bukan-email"
+  },
+  "items": []
+}
+
+### 14. Get Order Summary (Fase 3 - REQ-CO-10)
+# Ganti dengan nomor order yang didapat dari checkout di atas
+GET {{baseUrl}}/orders/MS-260930-XXXXXX
+Accept: application/json
+
+### 15. Admin Login (Fase 4 - REQ-AUTH-01)
+# Copy plainTextToken hasil respons ke variabel @token di paling atas file
+POST {{baseUrl}}/admin/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "admin@minishop.test",
+  "password": "password"
+}
+
+### 16. Admin List Products (Fase 4 - REQ-ADM-01)
+GET {{baseUrl}}/admin/products
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### 17. Admin Create Product (Fase 4 - REQ-ADM-02)
+POST {{baseUrl}}/admin/products
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "category_id": 1,
+  "name": "Philodendron Pink Princess",
+  "description": "Tanaman koleksi dengan semburat merah muda langka.",
+  "price": 450000,
+  "stock": 3,
+  "image_url": "https://picsum.photos/seed/pink-princess/600/600"
+}
+
+### 18. Admin Get Product Detail (Fase 4 - REQ-ADM-04)
+GET {{baseUrl}}/admin/products/1
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### 19. Admin Update Product (Fase 4 - REQ-ADM-04)
+PUT {{baseUrl}}/admin/products/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "category_id": 1,
+  "name": "Monstera Deliciosa Spesial",
+  "description": "Daun berlubang khas, sangat rimbun dan sehat.",
+  "price": 195000,
+  "stock": 10,
+  "image_url": "https://picsum.photos/seed/monstera-deliciosa/600/600"
+}
+
+### 20. Admin Soft Delete Product (Fase 4 - REQ-ADM-05)
+DELETE {{baseUrl}}/admin/products/10
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### 21. Admin List Orders (Fase 4 - REQ-ORD-01)
+GET {{baseUrl}}/admin/orders
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### 22. Admin Get Order Detail (Fase 4 - REQ-ORD-02)
+GET {{baseUrl}}/admin/orders/1
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### 23. Admin Logout (Fase 4 - REQ-AUTH-05)
+POST {{baseUrl}}/admin/logout
+Authorization: Bearer {{token}}
+Accept: application/json

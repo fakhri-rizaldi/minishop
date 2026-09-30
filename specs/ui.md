@@ -233,32 +233,37 @@ Kerangka: `max-width: var(--content-max)`, rata tengah, padding samping 16 px (m
 | lg | 1024–1279 | 4 kolom |
 | xl | ≥ 1280 | 4 kolom (lebar konten dibatasi 1200) |
 
-### 5.2 Header (semua halaman publik)
+### 5.2 Header / Navbar Burger Combo (semua halaman publik)
 
 ```
 ┌────────────────────────────────────────────────────────────────┐
-│ MiniShop            [ Cari produk...            ]      Keranjang (3) │
+│                                                            [≡] │
 └────────────────────────────────────────────────────────────────┘
 ```
-Sticky di atas, `surface`, garis bawah `raised`. Di mobile: wordmark + ikon keranjang, kolom cari turun ke baris kedua. Badge jumlah keranjang: pill `primary` dengan teks `bg`.
+Fixed di atas (`fixed top-0`) dengan tata letak ultra-minimalis tanpa teks brand. Memiliki tombol Burger Combo animasi di pojok kanan atas yang morph menjadi '✕' saat aktif. Saat diklik, memicu animasi **Slide Down Kotak Hitam Blur Memenuhi Layar** (`rgba(0, 0, 0, 0.58)` dengan `backdrop-filter: blur(16px)`) yang meluncur turun dari atas. Teks menu navigasi (**Katalog** dan **Login / Admin Panel**) diletakkan di sisi kiri agak tengah dengan tipografi Fraunces elegan dan animasi garis bawah (*animated underline*) yang meluncur halus saat kursor meng-hover teks tautan. Saat berada di atas seksi Hero Landing (`/`), latar belakang navbar transparan (`bg-transparent`), dan saat di-scroll memasuki seksi katalog (`#katalog`) atau di halaman non-beranda, bertransisi *fade in* ke latar **Dark Forest Blur** (`rgba(11, 19, 15, 0.85)` + `blur(10px)`). Akses keranjang belanja dilayani oleh tombol melayang (`FloatingCartButton`) di pojok kanan bawah.
 
-### 5.3 Katalog `/`
+### 5.3 Beranda & Katalog `/`
 
 ```
-Katalog                                   (h1, Fraunces)
-[ Semua ] [ Tanaman ] [ Pot & Wadah ] [ Perlengkapan ] [ Dekorasi ]   ← chip, bisa scroll horizontal di mobile
-──────────────────────────────────────────────
-┌───────┐ ┌───────┐ ┌───────┐ ┌───────┐
-│ gambar│ │       │ │       │ │       │   gambar 1:1
-├───────┤ │       │ │       │ │       │
-│ Nama  │ │       │ │       │ │       │
-│ Kategori (secondary)
-│ Rp 185.000     [Stok menipis]
-│ [ Tambah ke keranjang ]
-└───────┘
-              « 1 2 3 »
+┌──────────────────────────────────────────────────────────────┐
+│ Hadirkan Ketenangan Botani di Setiap Sudut Ruang Anda (h1)  │  ← Hero Section (Landing)
+│ Kurasi tanaman hias indoor segar, pot keramik artisan...     │
+│ [ Jelajahi Koleksi ↓ ]                                       │
+└──────────────────────────────────────────────────────────────┘
+ Katalog Produk                            (h2, Fraunces)
+ [ Semua ] [ Tanaman ] [ Pot & Wadah ] [ Perlengkapan ] [ Dekorasi ]
+ ──────────────────────────────────────────────
+ ┌───────┐ ┌───────┐ ┌───────┐ ┌───────┐
+ │ gambar│ │       │ │       │ │       │   gambar 1:1
+ ├───────┤ │       │ │       │ │       │
+ │ Nama  │ │       │ │       │ │       │
+ │ Kategori (secondary)
+ │ Rp 185.000     [Stok menipis]
+ │ [ Tambah ke keranjang ]
+ └───────┘
+               « 1 2 3 »
 ```
-Seluruh kartu (gambar + nama) adalah tautan ke detail; tombol tambah adalah kontrol terpisah. Chip terpilih: latar `raised`, teks `primary`, batas `primary`; tidak terpilih: transparan, batas `border-strong`, teks `text`.
+Seksi Hero Landing berukuran satu layar penuh (*full viewport* `min-h-screen`) dengan latar belakang gambar botani (`—Pngtree—nature plant green wallpaper hd_15795877.jpg`) dan lapisan *fade gradient* halus ke bawah menuju warna latar utama (`#020402`). Memiliki animasi masuk beruntun (*staggered entrance fade-up*) untuk judul (h1), deskripsi kurasi botani, dan tombol aksi "Jelajahi Koleksi" serta panah bawah yang melakukan *smooth scroll* ke seksi `#katalog`. Seluruh kartu (gambar + nama) di katalog adalah tautan ke detail; tombol tambah adalah kontrol terpisah. Chip terpilih: latar `raised`, teks `primary`, batas `primary`; tidak terpilih: transparan, batas `border-strong`, teks `text`.
 
 ### 5.4 Detail produk `/products/:id`
 
@@ -356,9 +361,14 @@ Overlay `--color-overlay`; panel `surface` lebar maks. 420 px. Judul (h2 Fraunce
 - **Kosong:** ikon garis sederhana (bukan ilustrasi), satu kalimat, satu tombol aksi.
 - **Error:** satu kalimat tentang apa yang terjadi + tombol "Coba lagi". Tidak meminta maaf berlebihan.
 
-### 6.9 Paginasi
+### 6.10 Tombol Keranjang Melayang di Kanan Bawah (Floating Cart Button)
 
-Tombol "Sebelumnya", nomor halaman (maks. 5 terlihat), "Berikutnya". Halaman aktif: latar `raised`, teks `primary`, `aria-current="page"`.
+- **Posisi:** Mengambang tetap di pojok kanan bawah layar (`bottom-6 right-6 z-40`). Muncul otomatis saat ada item di keranjang (`totalItems > 0`) pada halaman publik (di luar `/cart` dan `/checkout`).
+- **Bentuk:** Lingkaran (`rounded-full`) diameter 56 px, latar `--color-surface`, batas 2 px `--color-primary`, berisi ikon keranjang belanja SVG di tengah (`--color-primary`), dengan hover `scale-105` dan border `--color-accent-hover`.
+- **Badge Kuantitas:** Lingkaran merah (`--color-danger`) berdiameter 22 px di sudut atas-kanan lingkaran, teks putih tebal (700) menampilkan **total seluruh barang di keranjang belanja pengguna**.
+- **Animasi saat Tambah Item:** Efek *bounce/pulse* (`scale(1) → scale(1.25) → scale(1)`) selama 300 ms setiap kali tombol "Tambah ke keranjang" ditekan.
+- **Aksi Klik:** Mengarahkan pengguna langsung ke halaman daftar keranjang belanja (`/cart`).
+- **Aksesibilitas:** Memiliki `aria-label="Buka keranjang belanja, X item"`.
 
 ---
 
@@ -368,7 +378,7 @@ Sentence case, kata kerja aktif, nama aksi konsisten dari tombol sampai toast.
 
 | Konteks | Teks |
 |---|---|
-| Tombol tambah | Tambah ke keranjang → toast "Ditambahkan ke keranjang" |
+| Tombol tambah | Tambah ke keranjang → pop-up lingkaran cart + badge angka merah |
 | Melewati stok | "Stok hanya 3." |
 | Keranjang kosong | "Keranjang masih kosong." + [Lihat katalog] |
 | Checkout | [Lanjut ke checkout] → [Buat pesanan] → "Memproses pesanan…" |
@@ -389,8 +399,16 @@ Hindari kata klise ("Temukan", "Nikmati", "Mulus", "Tingkatkan"). Nama dan deskr
 
 - **Cincin fokus:** `outline: 2px solid var(--color-primary); outline-offset: 2px;` pada semua elemen interaktif via `:focus-visible`. Jangan pernah `outline: none` tanpa pengganti.
 - **Hover** hanya untuk perangkat pointer: `@media (hover: hover)`.
-- **Gerak:** hanya untuk menjawab aksi pengguna, 150 ms `ease-out`: perubahan warna/batas, badge keranjang membesar sekilas (scale 1 → 1.15 → 1) saat item ditambah, toast muncul (opasitas). Tidak ada animasi masuk pada tiap bagian halaman, tidak ada parallax.
-- `@media (prefers-reduced-motion: reduce)`: matikan skeleton berdenyut, pembesaran badge, dan transisi selain perubahan warna.
+- **Gerak:** hanya untuk menjawab aksi pengguna:
+  - Perubahan warna/batas: 150 ms `ease-out`.
+  - Transisi Grid Produk (FLIP Layout Reordering):
+    - Masuk (`enter`): 250 ms `cubic-bezier(0.16, 1, 0.3, 1)` (opasitas 0 → 1, scale 0.92 → 1, translateY 10px → 0).
+    - Keluar (`leave`): 200 ms `ease-out` (opasitas 1 → 0, scale 1 → 0.88, `position: absolute`, `pointer-events: none`).
+    - Berpindah posisi (`v-move`): 300 ms `cubic-bezier(0.16, 1, 0.3, 1)`.
+  - Transisi Status Kosong (`EmptyState`): 200 ms `ease-out` (*fade-slide* 8 px).
+  - Badge keranjang membesar sekilas (scale 1 → 1.15 → 1) saat item ditambah, toast muncul (opasitas).
+  - Tidak ada animasi dekoratif masuk pada setiap bagian halaman statis, tidak ada parallax.
+- `@media (prefers-reduced-motion: reduce)`: matikan seluruh transisi masuk/keluar, perpindahan posisi `v-move`, skeleton berdenyut, dan pembesaran badge.
 
 ---
 
@@ -407,7 +425,7 @@ Hindari kata klise ("Temukan", "Nikmati", "Mulus", "Tingkatkan"). Nama dan deskr
 
 ---
 
-## 10. Daftar Periksa "Bukan AI Slop"
+## 10. Daftar Periksa 
 
 Centang sebelum menganggap UI selesai (juga dipakai di `task.md` Fase 11):
 

@@ -24,22 +24,26 @@ Payment gateway, akun pelanggan, status order (dibayar/dikirim), upload gambar, 
 
 - **REQ-CAT-01** — SAAT pengunjung membuka halaman katalog, MAKA SISTEM HARUS menampilkan daftar produk dari API berisi nama, harga (format Rupiah), deskripsi singkat, gambar, kategori, dan stok. `[Wajib]`
 - **REQ-CAT-02** — SAAT jumlah produk melebihi satu halaman, MAKA SISTEM HARUS membagi hasil per halaman (default 12, maksimum 50 per permintaan) dan menyediakan navigasi halaman. `[Asumsi]`
-- **REQ-CAT-03** — SAAT pengunjung mengetik kata kunci pada kolom pencarian, MAKA SISTEM HARUS menampilkan hanya produk yang namanya mengandung kata kunci tersebut tanpa membedakan huruf besar/kecil, dengan jeda 300 ms setelah ketikan terakhir sebelum memanggil API. `[Wajib]`
+- **REQ-CAT-03** — SAAT pengunjung mengetik kata kunci pada kolom pencarian, MAKA SISTEM HARUS menampilkan hanya produk yang namanya mengandung kata kunci tersebut tanpa membedakan huruf besar/kecil, dengan jeda 250 ms setelah ketikan terakhir sebelum memanggil API dan memperbarui data. `[Wajib]`
 - **REQ-CAT-04** — SAAT pengunjung memilih sebuah kategori, MAKA SISTEM HARUS menampilkan hanya produk pada kategori tersebut. `[Wajib]`
 - **REQ-CAT-05** — SAAT pencarian dan filter kategori aktif bersamaan, MAKA SISTEM HARUS menerapkan keduanya sekaligus (AND) dan menyimpan keduanya di query string URL agar hasil bisa dibagikan dan bertahan saat refresh. `[Asumsi]`
-- **REQ-CAT-06** — SAAT pencarian atau filter tidak menghasilkan produk, MAKA SISTEM HARUS menampilkan pesan hasil kosong beserta tombol untuk mereset pencarian dan filter. `[Asumsi]`
+- **REQ-CAT-06** — SAAT pencarian atau filter tidak menghasilkan produk, MAKA SISTEM HARUS menampilkan pesan hasil kosong dengan transisi *fade-slide* lembut beserta tombol untuk mereset pencarian dan filter. `[Asumsi]`
 - **REQ-CAT-07** — SAAT pengunjung memilih sebuah produk, MAKA SISTEM HARUS membuka halaman detail produk (`/products/:id`) berisi gambar, nama, harga, deskripsi, kategori, stok, dan tombol tambah ke keranjang. `[Wajib]`
 - **REQ-CAT-08** — SAAT stok sebuah produk bernilai 0, MAKA SISTEM HARUS menandai produk "Stok habis" dan menonaktifkan tombol tambah ke keranjang pada list maupun detail. `[Asumsi]`
 - **REQ-CAT-09** — SAAT stok sebuah produk 5 atau kurang (dan lebih dari 0), MAKA SISTEM HARUS menampilkan penanda "Stok menipis" beserta jumlah stok. `[Asumsi]`
 - **REQ-CAT-10** — SAAT pengunjung membuka detail produk dengan id yang tidak ada atau sudah dihapus, MAKA SISTEM HARUS menampilkan halaman "Produk tidak ditemukan" dengan tautan kembali ke katalog. `[Asumsi]`
 - **REQ-CAT-11** — SAAT data katalog sedang dimuat, MAKA SISTEM HARUS menampilkan placeholder loading; SAAT pemuatan gagal, MAKA SISTEM HARUS menampilkan pesan error beserta tombol coba lagi. `[Asumsi]`
 - **REQ-CAT-12** — SAAT gambar produk gagal dimuat atau URL gambar kosong, MAKA SISTEM HARUS menampilkan gambar pengganti (placeholder) tanpa merusak tata letak. `[Asumsi]`
+- **REQ-CAT-13** — SAAT pengunjung mengganti kategori atau hasil pencarian berkurang, MAKA SISTEM HARUS menganimasikan kartu produk bergeser (*reorder*) mengisi posisi baru secara mulus (teknik FLIP, durasi 250–300 ms) tanpa kedipan layar. `[Asumsi]`
+- **REQ-CAT-14** — SAAT kartu produk keluar dari tampilan karena filter, MAKA SISTEM HARUS menonaktifkan interaksi klik/pointer (`pointer-events: none`) selama fase keluar berlangsung. `[Asumsi]`
+- **REQ-CAT-15** — SAAT sistem mendeteksi preferensi `prefers-reduced-motion: reduce`, MAKA SISTEM HARUS mematikan seluruh animasi pergeseran dan transisi secara instan. `[Asumsi]`
+- **REQ-CAT-16** — SAAT pengunjung pertama kali membuka halaman utama (`/`), MAKA SISTEM HARUS menyajikan seksi sambutan (*Hero Landing Section*) berisi judul sambutan ketenangan botani, deskripsi kurasi produk, animasi masuk teks (*staggered entrance animation*), serta tombol eksplorasi "Jelajahi Koleksi" yang melakukan *smooth scroll* ke seksi katalog. `[Asumsi]`
 
 ## 2. Keranjang (REQ-CART)
 
 Keranjang disimpan di sisi klien (state management). Server baru dilibatkan saat checkout.
 
-- **REQ-CART-01** — SAAT pengunjung menekan "Tambah ke keranjang" dari list atau detail produk, MAKA SISTEM HARUS menambahkan produk ke keranjang dengan jumlah 1 (atau jumlah yang dipilih pada halaman detail) dan memberi umpan balik bahwa item berhasil ditambahkan. `[Wajib]`
+- **REQ-CART-01** — SAAT pengunjung menekan "Tambah ke keranjang" dari list atau detail produk, MAKA SISTEM HARUS menambahkan produk ke keranjang dan memunculkan/menganimasikan tombol lingkaran melayang (*floating cart button*) di pojok kanan bawah berlogo keranjang dengan badge lingkaran merah berisi total barang di keranjang, yang jika diklik akan mengarahkan pengunjung ke halaman keranjang (`/cart`). `[Wajib]`
 - **REQ-CART-02** — SAAT produk yang ditambahkan sudah ada di keranjang, MAKA SISTEM HARUS menambah jumlah item yang ada, bukan membuat baris baru. `[Wajib]`
 - **REQ-CART-03** — SAAT jumlah hasil penambahan akan melebihi stok produk, MAKA SISTEM HARUS menolak penambahan tersebut, mempertahankan jumlah sebelumnya, dan menampilkan pesan yang menyebut stok tersedia. `[Wajib]`
 - **REQ-CART-04** — SAAT pengunjung mengubah jumlah item di keranjang (tombol +/− atau input angka), MAKA SISTEM HARUS memperbarui jumlah tersebut dan menghitung ulang subtotal item serta total keranjang saat itu juga. `[Wajib]`
@@ -93,7 +97,7 @@ Keranjang disimpan di sisi klien (state management). Server baru dilibatkan saat
 
 ## 7. Data & Seed (REQ-DATA)
 
-- **REQ-DATA-01** — SAAT perintah `php artisan migrate --seed` dijalankan pada database kosong, MAKA SISTEM HARUS membuat seluruh tabel, 4 kategori, 10 produk dummy (minimal satu produk berstok 0 dan satu berstok ≤ 5), dan satu akun admin. `[Wajib]`
+- **REQ-DATA-01** — SAAT perintah `php artisan migrate --seed` dijalankan pada database kosong, MAKA SISTEM HARUS membuat seluruh tabel, 4 kategori, 23 produk dummy (minimal satu produk berstok 0 dan beberapa berstok ≤ 5), dan satu akun admin. `[Wajib]`
 - **REQ-DATA-02** — SAAT `php artisan migrate:fresh --seed` dijalankan berulang, MAKA SISTEM HARUS menghasilkan keadaan yang sama tanpa error. `[Asumsi]`
 - **REQ-DATA-03** — SAAT harga disimpan, MAKA SISTEM HARUS menyimpannya sebagai bilangan bulat Rupiah (bukan desimal/float) agar tidak ada galat pembulatan. `[Asumsi]`
 - **REQ-DATA-04** — SAAT ada upaya menulis stok atau harga bernilai negatif langsung ke database, MAKA SISTEM HARUS menolaknya lewat *check constraint* sebagai pengaman terakhir. `[Asumsi]`

@@ -1,0 +1,233 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #020402;
+  --color-surface: #1f241f;
+  --color-surface-raised: #3c433b;
+  --color-border-strong: #647a67;
+  --color-text-muted: #758173;
+  --color-text-secondary: #8fa38a;
+  --color-accent: #a9c5a0;
+  --color-accent-hover: #b8d2b3;
+  --color-text: #c6dec6;
+  --color-primary: #c5efcb;
+  --color-danger: #e58b7f;
+  --color-warning: #e3c26b;
+
+  --font-display: "Fraunces Variable", "Iowan Old Style", Georgia, serif;
+  --font-body: "Manrope Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --radius-control: 8px;
+  --radius-card: 14px;
+  --radius-media: 10px;
+  --radius-pill: 999px;
+}
+
+:root {
+  color-scheme: dark;
+
+  /* warna */
+  --color-bg: #020402;
+  --color-surface: #1f241f;
+  --color-surface-raised: #3c433b;
+  --color-border-strong: #647a67;
+  --color-text-muted: #758173;
+  --color-text-secondary: #8fa38a;
+  --color-accent: #a9c5a0;
+  --color-accent-hover: #b8d2b3;
+  --color-text: #c6dec6;
+  --color-primary: #c5efcb;
+  --color-danger: #e58b7f;
+  --color-warning: #e3c26b;
+  --color-overlay: rgba(2, 4, 2, 0.72);
+
+  /* tipografi */
+  --font-display: "Fraunces Variable", "Iowan Old Style", Georgia, serif;
+  --font-body: "Manrope Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* bentuk */
+  --radius-control: 8px;
+  --radius-card: 14px;
+  --radius-media: 10px;
+  --radius-pill: 999px;
+
+  /* ruang (basis 4px) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 72px;
+
+  --content-max: 1200px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Global focus ring (specs/ui.md §8) */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* FLIP Layout Reordering & Catalog Transitions (specs/spec.md) */
+.catalog-grid-wrapper {
+  position: relative;
+}
+
+.catalog-grid-enter-active,
+.catalog-grid-leave-active {
+  transition: opacity 250ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.catalog-grid-enter-from {
+  opacity: 0;
+  transform: scale(0.92) translateY(10px);
+}
+
+.catalog-grid-leave-to {
+  opacity: 0;
+  transform: scale(0.88);
+}
+
+.catalog-grid-move {
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.catalog-grid-leave-active {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Transisi Status Kosong (Empty State) */
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* Floating Cart Button di Kanan Bawah (REQ-CART-01, ui.md §6.10) */
+.floating-cart-enter-active {
+  transition: opacity 250ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.floating-cart-leave-active {
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.floating-cart-enter-from {
+  opacity: 0;
+  transform: scale(0.6) translateY(12px);
+}
+
+.floating-cart-leave-to {
+  opacity: 0;
+  transform: scale(0.8) translateY(12px);
+}
+
+@keyframes cart-bounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.22); }
+  100% { transform: scale(1); }
+}
+
+.animate-cart-bounce {
+  animation: cart-bounce 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Hero Banner Background with Fade Gradient */
+.hero-banner {
+  background-image: linear-gradient(
+      180deg,
+      rgba(2, 4, 2, 0.42) 0%,
+      rgba(2, 4, 2, 0.68) 50%,
+      rgba(2, 4, 2, 0.92) 80%,
+      #020402 100%
+    ),
+    url('/—Pngtree—nature plant green wallpaper hd_15795877.jpg');
+  background-size: cover;
+  background-position: center 30%;
+  background-repeat: no-repeat;
+}
+
+/* Hero Section Entrance Animations (REQ-CAT-16, ui.md §5.3) */
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-hero-1 {
+  animation: hero-fade-up 500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-hero-2 {
+  animation: hero-fade-up 500ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+}
+
+.animate-hero-3 {
+  animation: hero-fade-up 500ms cubic-bezier(0.16, 1, 0.3, 1) 240ms both;
+}
+
+.animate-hero-4 {
+  animation: hero-fade-up 500ms cubic-bezier(0.16, 1, 0.3, 1) 360ms both;
+}
+
+/* Motion accessibility (specs/ui.md §8, specs/spec.md) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .catalog-grid-enter-active,
+  .catalog-grid-leave-active,
+  .catalog-grid-move,
+  .fade-slide-enter-active,
+  .fade-slide-leave-active {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
