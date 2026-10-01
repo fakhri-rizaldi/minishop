@@ -1,7 +1,7 @@
 # Requirement — MiniShop
 
 > Sumber kebenaran untuk **APA** yang harus dilakukan sistem. Cara membuatnya ada di `design.md`, urutan pengerjaan ada di `task.md`, tampilan ada di `ui.md`.
-> Sumber: Case Study Fullstack Engineer (Roketin) — "MiniShop: Product Catalog & Cart".
+> Sumber: Case Study Fullstack Engineer — "MiniShop: Product Catalog & Cart".
 
 **Pola penulisan:** `SAAT [kejadian/kondisi], MAKA SISTEM HARUS [perilaku yang bisa diuji]`
 
