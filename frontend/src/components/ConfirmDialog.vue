@@ -1,7 +1,7 @@
 <template>
   <Teleport to="body">
     <div
-      v-if="isOpen"
+      v-if="activeOpen"
       class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[var(--color-overlay)]"
       role="dialog"
       aria-modal="true"
@@ -32,7 +32,7 @@
             @click="handleConfirm"
             :class="[
               'px-4 py-2 font-semibold rounded-[var(--radius-control)] transition-colors text-sm cursor-pointer',
-              isDanger
+              activeDanger
                 ? 'bg-[var(--color-danger)] text-[var(--color-bg)] hover:opacity-90'
                 : 'bg-[var(--color-primary)] text-[var(--color-bg)] hover:bg-[var(--color-accent-hover)]'
             ]"
@@ -46,10 +46,14 @@
 </template>
 
 <script setup>
-import { ref, watch, nextTick } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 
 const props = defineProps({
   isOpen: {
+    type: Boolean,
+    default: false,
+  },
+  show: {
     type: Boolean,
     default: false,
   },
@@ -73,15 +77,22 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  danger: {
+    type: Boolean,
+    default: false,
+  },
 })
 
-const emit = defineEmits(['confirm', 'cancel', 'update:isOpen'])
+const emit = defineEmits(['confirm', 'cancel', 'update:isOpen', 'update:show'])
+
+const activeOpen = computed(() => props.isOpen || props.show)
+const activeDanger = computed(() => props.isDanger || props.danger)
 
 const titleId = `dialog-title-${Math.random().toString(36).slice(2, 9)}`
 const cancelBtnRef = ref(null)
 
 watch(
-  () => props.isOpen,
+  activeOpen,
   (val) => {
     if (val) {
       nextTick(() => {
@@ -94,10 +105,12 @@ watch(
 function handleCancel() {
   emit('cancel')
   emit('update:isOpen', false)
+  emit('update:show', false)
 }
 
 function handleConfirm() {
   emit('confirm')
   emit('update:isOpen', false)
+  emit('update:show', false)
 }
 </script>

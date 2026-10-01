@@ -201,12 +201,12 @@
 
     <!-- Confirm Delete Dialog (REQ-ADM-05) -->
     <ConfirmDialog
-      :show="showDeleteDialog"
+      :is-open="showDeleteDialog"
       title="Hapus Produk?"
       :message="`Apakah Anda yakin ingin menghapus produk '${productToDelete?.name}'? Riwayat pesanan lama yang memuat produk ini tidak akan terhapus.`"
       confirm-text="Ya, Hapus Produk"
       cancel-text="Batal"
-      :danger="true"
+      :is-danger="true"
       @confirm="confirmDeleteProduct"
       @cancel="showDeleteDialog = false"
     />
