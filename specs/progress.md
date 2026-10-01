@@ -65,6 +65,6 @@
 
 ## Catatan lingkungan
 
-- Windows PowerShell / CMD; path proyek berspasi (`E:\project bray\MiniShop`), selalu dikutip.
+- Windows PowerShell / CMD; path proyek berspasi (`.:\...\MiniShop`), selalu dikutip.
 - Versi: PHP 8.4.23, Composer 2.10.1, Node.js v26.5.0, PostgreSQL 18.4
 - DB User: `minishop` (Password: `minishop_secret`) | DB: `minishop`, `minishop_test`
